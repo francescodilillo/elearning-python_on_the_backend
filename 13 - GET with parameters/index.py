@@ -2,7 +2,7 @@
 #
 # Author: francescodilillo
 # Purpose: Create web requests handler
-# Last Edit Date: 24-05-2020
+# Last Edit Date: 26-05-2020
 #
 #
 ################################################################################
@@ -22,10 +22,15 @@ class queryRequestHandler(tornado.web.RequestHandler):
         else:
             self.write(f"{num} is not a valid integer")
 
+class resourceRequestHandler(tornado.web.RequestHandler):
+
+    def get(self, sname, cid):
+        self.write(f"Welcome {sname} to course {cid}")
 
 if __name__ == "__main__":
     app = tornado.web.Application([
-        (r"/isEven", queryRequestHandler)                   # example: localhost:8882/isEven?n=2
+        (r"/isEven", queryRequestHandler),                   # example: localhost:8882/isEven?n=2
+         (r"/students/([a-z]+)/([0-9]+)", resourceRequestHandler)   #example: localhost:8882/students/francesco/77
     ])
 
 port = 8882

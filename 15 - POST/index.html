@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number API</title>
+</head>
+<body>
+<label>Numbers</label>
+<select id = 'lstNumber' ></select>
+<label>Add new number</label><input type = 'txt' id = 'txtNumber'><button id = 'btnNumber'>Add a new number</button>
+
+    <script>
+
+        const lstNumber = document.getElementById("lstNumber")
+        const btnNumber = document.getElementById("btnNumber")
+        const txtNumber = document.getElementById("txtNumber")
+
+        fetch("http://localhost:8882/list")
+        .then(response => response.json())
+        .then(jsonResponse => jsonResponse.forEach(num => {
+
+            let o = document.createElement("option")
+            o.textContent = num
+            lstNumber.appendChild(o)
+
+        }))
+
+
+        btnNumber.addEventListener("click", e => {
+                let num = txtNumber.value;
+                fetch(`http://localhost:8882/list?num=${num}`, {"method" : "POST"})
+                .then(response => response.json())
+                .then(jsonResponse => alert(jsonResponse.message))
+
+        })
+
+    </script>
+
+</body>
+</html>

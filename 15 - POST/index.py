@@ -2,7 +2,7 @@
 #
 # Author: francescodilillo
 # Purpose: Create web requests handler for get and post
-# Last Edit Date: 28-05-2020
+# Last Edit Date: 31-05-2020
 #
 #
 ################################################################################
@@ -13,6 +13,10 @@ import asyncio
 import json
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())     # python-3.8.0a4 / Windows
 
+class mainRequestHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render("index.html")
 
 class queryRequestHandler(tornado.web.RequestHandler):
 
@@ -27,12 +31,13 @@ class queryRequestHandler(tornado.web.RequestHandler):
         fh = open("numbers.txt", "a")
         fh.write(f'{num}\n')
         fh.close()
-        self.write(json.dumps("Number added to the list"))
+        self.write(json.dumps({"message": "Number added successfully."}))
 
 
 
 if __name__ == "__main__":
     app = tornado.web.Application([
+        (r"/", mainRequestHandler),
         (r"/list", queryRequestHandler)
     ])
 
